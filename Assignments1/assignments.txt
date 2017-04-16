@@ -43,6 +43,7 @@ quota unlimited on vehicles_fleet;
 ---------------------------(5)------------------------------
 --Assign the dba role and permissions to connect to the user just created (0.5)
 
+GRANT DBA TO juanca;
 grant create session to juanca;
 
 ---------------------------(6)------------------------------
