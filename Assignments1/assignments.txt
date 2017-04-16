@@ -141,7 +141,6 @@ ALTER USER USUARIO1 ACCOUNT LOCK;
 ALTER USER USUARIO2 ACCOUNT LOCK;
 ALTER USER USUARIO3 ACCOUNT LOCK;
 
-;
 
 ---------------------------(10)------------------------------   
 --Delete the tablespace called "test_purposes?" (0.5)
