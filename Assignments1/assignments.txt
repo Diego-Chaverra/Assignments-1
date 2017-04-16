@@ -121,8 +121,6 @@ CREATE USER USUARIO4
 IDENTIFIED BY usuario4
 DEFAULT tablespace vehicles_fleet
 PROFILE development;
---Consultar los usuarios creados
-select *from dba_users;
 
 
 --all the users should be allow to connect to the database
@@ -143,8 +141,7 @@ ALTER USER USUARIO1 ACCOUNT LOCK;
 ALTER USER USUARIO2 ACCOUNT LOCK;
 ALTER USER USUARIO3 ACCOUNT LOCK;
 
--- CONSULTAR LOS USUARIOS BLOQUEADOS.
-select * from DBA_USERS;
+;
 
 ---------------------------(10)------------------------------   
 --Delete the tablespace called "test_purposes?" (0.5)
