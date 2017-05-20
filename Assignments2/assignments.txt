@@ -1,1 +1,49 @@
-﻿
+﻿4.) --Create a view which should be run only by users associated to "finance_profile". The view should look like this:
+--Registration_number / Mileage / Model / Current_value / class / Replacement_Value / Status /
+--Required_special_qualification? / Number_of_services / Total_money_spent_in_repairs.
+--The view should show only class of cars: Car, Light rigid heavy vehicle, Medium rigid heavy vehicle,
+--heavy rigid vehicle, tractor and and filter the cars which were bought since 2 years ago and order them
+--by mileage (descending) (0.5)
+
+CREATE VIEW AS FINANCE_PROFILE_VIEW
+	SELECT VEH.REGISTRATION_NUMBER, VEH.MILEAGE, VEH.MODEL, VEH.CURRENT_VALUE, TOV.DESCRIPTION AS CLASS, VEH.REPLACEMENT_VALUE, VEH.STATUS,
+	TOV.SPECIAL_QUALIFICATION AS REQUIRED_SPECIAL_QUALIFICATION, 
+	(SELECT COUNT(1) FROM SERVICES WHERE VEHICLE_ID = VEH.VEHICLE_ID) AS NUMBER_OF_SERVICES,
+	(SELECT SUM(AMOUNT) FROM REPAIR_COSTS WHERE VEHICLE_ID = VEH.VEHICLE_ID) AS TOTAL_MONEY_SPENT_IN_REPAIRS
+	FROM VEHICLES VEH
+	JOIN TYPES_OF_VEHICLES TOV
+	ON TOV.TYPE_OF_VEHICLE_ID = VEH.TYPE_OF_VEHICLE_ID
+	WHERE TOV.DESCRIPTION IN ('Car', 'Light rigid heavy vehicle', 'Medium rigid heavy vehicle', 'Heavy rigid vehicle', 'Tractor') 
+	AND TO_CHAR(VEH.BOUGHT_DATE, 'YYYY') >= (TO_CHAR(SYSDATE, 'YYYY') - 2)
+	ORDER BY VEH.MILEAGE DESC;
+
+5.) --Create a function to assign the name of the service, this function should return a string. The string
+--must have the number of mileages run, and remember each revision is performed every 3 months, the
+--name has the structure "mileage_service", for instance (3000_service, 6000_service, 9000_service). If
+--the name already exist in the service table for that vehicle, must return an empty string, otherwise you
+--need to calculate the number based on the current mileage, for instance, if the mileage of the car is
+--11560 miles the name should return "9000_service". (0.5)
+
+
+6.) --Create a stored procedure which accepts the id of vehicle as argument, inside the procedure you should:
+	--a. Call the function to assign the name of the service
+	--b. If the string is not empty, create a new service for that vehicle in status "Pending", current
+		--date, the description field should contains next text "Mandatory '9000_service' service; current
+		--mileage '9123'". 
+		--If the string is empty do nothing.
+	--c. Associate all the types of services to the service, for each type of service the status column
+	--must have the value "Pending". (0.5)
+	
+
+
+7.) --Create a trigger which once the mileage column is updated, call the procedure just created. (0.5)
+
+
+
+8.) --Create a stored procedure to decrease the current value of vehicles as follows:
+	--a. If the class of vehicle is Moped, Motorcycle and Trike motorcycle 2% of the current value.
+	--b. If the class of vehicle is Car, Light rigid heavy vehicle, Medium rigid heavy vehicle 3% of the urrent value.
+	--c. Otherwise 5% of the current value.
+	--d. Only "manager_profile" is allowed to run the procedure and should print at the end "Number of
+	--vehicles updated successfully: xx" (0.5)	
+	
