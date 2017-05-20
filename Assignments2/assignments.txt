@@ -24,6 +24,34 @@ CREATE VIEW AS FINANCE_PROFILE_VIEW
 --need to calculate the number based on the current mileage, for instance, if the mileage of the car is
 --11560 miles the name should return "9000_service". (0.5)
 
+CREATE OR REPLACE FUNCTION ASSIGN_NAME_OF_SERVICE(VEH_ID IN VEHICLES.VEHICLE_ID%TYPE)
+RETURN VARCHAR IS
+   MILEAGE_SERVICE VARCHAR(20) := '';   
+   
+	VEHICLE_MILEAGE VEHICLES.MILEAGE%TYPE;
+	SERVICE_EXIST NUMBER(2);	
+BEGIN
+
+	SELECT MILEAGE INTO VEHICLE_MILEAGE FROM VEHICLES WHERE VEHICLE_ID = VEH_ID;
+
+	IF VEHICLE_MILEAGE >= 3000 AND VEHICLE_MILEAGE < 6000 THEN
+		MILEAGE_SERVICE := '3000_service';
+	ELSE IF VEHICLE_MILEAGE >= 6000 AND VEHICLE_MILEAGE < 9000 THEN
+			MILEAGE_SERVICE := '6000_service';
+		ELSE IF VEHICLE_MILEAGE >= 9000 THEN
+				MILEAGE_SERVICE := '9000_service';	
+			END IF;
+		END IF;	
+	END IF;
+
+	SELECT COUNT(1) INTO SERVICE_EXIST FROM SERVICES WHERE NAME LIKE '%'||MILEAGE_SERVICE||'%' AND VEHICLE_ID = VEH_ID;
+
+	IF(SERVICE_EXIST > 0) THEN
+		MILEAGE_SERVICE := '';	
+	END IF;
+  
+	RETURN MILEAGE_SERVICE;
+END;
 
 6.) --Create a stored procedure which accepts the id of vehicle as argument, inside the procedure you should:
 	--a. Call the function to assign the name of the service
