@@ -561,3 +561,28 @@ INSERT INTO service_details (service_id,type_of_service,status)
 	VALUES ('5','2','Ok');
 INSERT INTO service_details (service_id,type_of_service,status) 
 	VALUES ('5','4','Pending');
+	
+--DELETE ALL
+/*
+
+drop table service_details;
+drop table types_of_service;
+drop table services;
+drop table repair_costs;
+drop table insurance_claims;
+drop table vehicles_per_drivers;
+drop table drivers_qualifications;
+drop table drivers;
+drop table vehicles;
+drop table types_of_vehicles;
+
+drop sequence drivers_seq;
+drop sequence types_of_vehicles_seq;
+drop sequence vehicles_seq;
+drop sequence repair_costs_seq;
+drop sequence insurance_claims_seq;
+drop sequence services_seq;
+drop sequence types_of_service_seq;
+drop sequence service_details_seq;
+
+*/
