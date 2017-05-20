@@ -110,7 +110,12 @@ END;
 
 
 7.) --Create a trigger which once the mileage column is updated, call the procedure just created. (0.5)
-
+CREATE OR REPLACE TRIGGER EXEC_PROCEDURE_SERVICES 
+  AFTER UPDATE OF MILEAGE ON VEHICLES FOR EACH ROW 
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Ejecutando TRIGGER, VEHICLE_ID: ' || :OLD.VEHICLE_ID || ', NEW MILEAGE: ' || :NEW.MILEAGE);
+      ASSOCIATE_SERVICES_VEHICLE(:OLD.VEHICLE_ID, :NEW.MILEAGE);	
+END;
 
 
 8.) --Create a stored procedure to decrease the current value of vehicles as follows:
