@@ -280,6 +280,7 @@ BEGIN
   FROM dual;
 END;
 
+/
 
 -- INSERT  DRIVERS
 
@@ -537,9 +538,9 @@ INSERT INTO services (vehicle_id,name,issue_date,description,status)
 -- INSERT service_details
 
 INSERT INTO service_details (service_id,type_of_service,status) 
-	VALUES ('1','1','Scheduled');
+	VALUES ('1','1','Pending');
 INSERT INTO service_details (service_id,type_of_service,status) 
-	VALUES ('1','4','Scheduled');
+	VALUES ('1','4','Observations');
 
 INSERT INTO service_details (service_id,type_of_service,status) 
 	VALUES ('2','4','Needs Repair');
