@@ -125,3 +125,28 @@ END;
 	--d. Only "manager_profile" is allowed to run the procedure and should print at the end "Number of
 	--vehicles updated successfully: xx" (0.5)	
 	
+	CREATE OR REPLACE PROCEDURE DESCREASE_CURR_VAL_VEHICLE AS
+	NEW_CURRENT_VALUE vehicles.CURRENT_VALUE%TYPE;
+	TOTAL NUMBER(5) := 0;
+BEGIN
+  DBMS_OUTPUT.PUT_LINE('Start execution...');		
+  
+	FOR VEHICLE IN (select veh.VEHICLE_ID, TOV.DESCRIPTION, veh.CURRENT_VALUE from vehicles veh
+                  join TYPES_OF_VEHICLES TOV 
+                  on TOV.TYPE_OF_VEHICLE_ID = veh.TYPE_OF_VEHICLE_ID)
+	LOOP
+		IF(VEHICLE.DESCRIPTION IN ('Moped', 'Motorcycle', 'Trike motorcycle')) THEN
+        NEW_CURRENT_VALUE := VEHICLE.CURRENT_VALUE * 0.98; --EQ 0.02
+			ELSE IF(VEHICLE.DESCRIPTION IN ('Car', 'Light rigid heavy vehicle', 'Medium rigid heavy vehicle')) THEN
+          NEW_CURRENT_VALUE := VEHICLE.CURRENT_VALUE * 0.97; --EQ 0.03
+				ELSE
+					NEW_CURRENT_VALUE := VEHICLE.CURRENT_VALUE * 0.95; --EQ 0.05
+			END IF;
+		END IF;
+	
+		UPDATE VEHICLES SET CURRENT_VALUE = NEW_CURRENT_VALUE WHERE VEHICLE_ID = VEHICLE.VEHICLE_ID;
+		TOTAL := TOTAL + 1;
+	END LOOP;
+	
+	DBMS_OUTPUT.PUT_LINE('Number of vehicles updated successfully: ' || TOTAL);		
+END;
